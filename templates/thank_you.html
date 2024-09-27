@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>Ačiū už Jūsų atsakymus!</h2>
+    <p>Jūsų atsakymai buvo užregistruoti. Dėkojame už dalyvavimą tyrime.</p>
+    <h3>Jūsų rezultatai:</h3>
+    <ul>
+    {% for category, score in scores.items() %}
+        <li>{{ category }}: {{ score }}</li>
+    {% endfor %}
+    </ul>
+{% endblock %}

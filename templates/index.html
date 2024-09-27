@@ -1,0 +1,17 @@
+<!-- templates/index.html -->
+{% extends "base.html" %}
+{% block content %}
+    <p>Gerbiamas (-a) tyrimo dalyvi (-e),</p>
+    <p>
+        Mokytojų palaikymo ratai atlieka longitudinį (ilgalaikį) tyrimą „Pedagogų psichologinės gerovės ir perdegimo sindromo pokyčiai mokslo metų eigoje“. Šio tyrimo apibendrinti rezultatai bus naudojami teikiant rekomendacijas švietimo politikos formuotojams, švietimo įstaigų steigėjams (savivaldybėms).
+        Dalyvavimas šiame tyrime yra savanoriškas ir anoniminis. Įsipareigojame Jūsų pateiktą informaciją saugoti ir tvarkyti atsakingai, naudoti ją apibendrintą, tik šiame kreipimesi nurodytais tikslais ir jokiomis aplinkybėmis nesieksime identifikuoti Jūsų tapatybės. Tyrimas vidutiniškai užtruks apie 10 minučių. Jūsų atsakymai mus pasieks tik tuo atveju, jeigu užpildysite viską ir paspausite Pateikties mygtuką.
+    </p>
+    <p>
+        Jeigu kiltų papildomų klausimų, maloniai prašome susisiekti su tyrimą atliekančia ...................., .............@gmail.com, +370-698-..............
+        Mums labai svarbu žinoti, kaip Jūs jaučiatės.
+        Iš anksto dėkojame už atvirumą, pagalbą ir bendradarbiavimą.
+    </p>
+    <form action="{{ url_for('start') }}" method="post">
+        <button type="submit">Pradėti apklausą</button>
+    </form>
+{% endblock %}

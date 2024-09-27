@@ -1,0 +1,17 @@
+<!-- templates/questions.html -->
+{% extends "base.html" %}
+{% block content %}
+    <h2>Klausimas {{ question_number }} iš {{ total_questions }}</h2>
+    <p>{{ question['question'] }}</p>
+    <form method="post">
+        {% for option in question['options'] %}
+            <div class="option">
+                <label>
+                    <input type="radio" name="option" value="{{ option }}" required>
+                    {{ option }}
+                </label>
+            </div>
+        {% endfor %}
+        <button type="submit">Toliau</button>
+    </form>
+{% endblock %}

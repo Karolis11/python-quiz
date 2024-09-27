@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>Psichologinės gerovės skalė</h2>
+    <p>Žemiau pateikta psichologinės gerovės skalė. Jūsų atsakymai į toliau pateiktus teiginius nėra nei teisingi nei klaidingi, jie tiesiog atspindi Jūsų patirtį ir požiūrį į save bei tam tikras gyvenimo sritis. Jokio specialaus pasirengimo atsakymams nereikia – atsakykite atvirai, nuoširdžiai ir kuo tiksliau pasirinkite Jums tinkamą atsakymą.</p>
+
+    <form method="post">
+        <table>
+            <thead>
+                <tr>
+                    <th>Eil. Nr.</th>
+                    <th>Teiginiai</th>
+                    <th>Visiškai nesutinku</th>
+                    <th>Nesutinku</th>
+                    <th>Nei sutinku, nei nesutinku</th>
+                    <th>Sutinku</th>
+                    <th>Visiškai sutinku</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for question in questions %}
+                {% set question_index = loop.index %}
+                <tr>
+                    <td>{{ question_index }}</td>
+                    <td>{{ question }}</td>
+                    {% for option in options %}
+                    <td>
+                        <!-- Ensure each question's options share the same name -->
+                        <input type="radio" name="question_{{ question_index }}" value="{{ option }}" required>
+                    </td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <button type="submit">Toliau</button>
+    </form>
+{% endblock %}
