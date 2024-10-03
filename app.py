@@ -5,17 +5,16 @@ import uuid
 from datetime import datetime
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'  # Replace with a secure secret key
+app.secret_key = 'your_secret_key' 
 
-# Google Sheets setup
-SERVICE_ACCOUNT_FILE = 'quiz-436010-bc5b500a68d1.json'  # Update with your file path
+SERVICE_ACCOUNT_FILE = 'quiz-436010-6b96c91ffaa6.json'
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
 credentials = Credentials.from_service_account_file(
     SERVICE_ACCOUNT_FILE, scopes=SCOPES)
 gc = gspread.authorize(credentials)
-SPREADSHEET_ID = '1MQmCQIdUVQgbMJYyVK8x9tW8_ztKmNytjEV4kgJ7SY4'  # Replace with your spreadsheet ID
+SPREADSHEET_ID = '1MQmCQIdUVQgbMJYyVK8x9tW8_ztKmNytjEV4kgJ7SY4'  
 sh = gc.open_by_key(SPREADSHEET_ID)
-worksheet = sh.sheet1  # or sh.worksheet('Sheet1')
+worksheet = sh.sheet1
 
 @app.route('/')
 def index():
