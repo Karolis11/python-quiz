@@ -154,11 +154,12 @@ def work_feelings():
         'Jaučiu, kad mokiniai kaltina mane dėl savo pačių problemų'
     ]
 
-    categories = {
-        'Emocinis': [questions[i] for i in [0, 1, 2, 5, 7, 12, 13, 15, 19]],
-        'Depersonalizacija': [questions[i] for i in [4, 9, 10, 14, 21]],
-        'Asmeniniu': [questions[i] for i in [3, 6, 8, 11, 16, 17, 18, 20]]
-    }
+    if 'categories' not in session:
+        session['categories'] = {
+            'Emocinis': [questions[i] for i in [0, 1, 2, 5, 7, 12, 13, 15, 19]],
+            'Depersonalizacija': [questions[i] for i in [4, 9, 10, 14, 21]],
+            'Asmeniniu': [questions[i] for i in [3, 6, 8, 11, 16, 17, 18, 20]]
+        }
     
     options = [
         'Niekada', 
@@ -185,13 +186,19 @@ def work_feelings():
 
     answers = []
     if request.method == 'POST':
+        session['category_scores'] = {
+            'Emocinis': 0,
+            'Depersonalizacija': 0,
+            'Asmeniniu': 0
+        }
+
         for i in range(1, 23):  # There are 22 questions
             answer = request.form.get(f'question_{i}')
             answers.append({
                 'question': questions[i - 1],
                 'selected_option': answer
             })
-            for category, category_questions in categories.items():
+            for category, category_questions in session['categories'].items():
                 if questions[i - 1] in category_questions:
                     session['category_scores'][category] += option_scores[answer]
                     break
@@ -216,10 +223,21 @@ def thank_you():
         'Asmeniniu': 0
     })
 
+    categories = session.get('categories', {
+        'Emocinis': [],
+        'Depersonalizacija': [],
+        'Asmeniniu': []
+    })
+
+    category_averages = {}
+    for category, score in category_scores.items():
+        num_questions = len(categories[category])
+        category_averages[category] = score / num_questions if num_questions > 0 else 0
+
     # Save answers to Google Spreadsheet
     save_answers_to_sheet(answers, wellbeing_answers, work_feelings_answers)
 
-    return render_template('thank_you.html', title="Ačiū", scores=category_scores)
+    return render_template('thank_you.html', title="Ačiū", scores=category_averages)
 
 def save_answers_to_sheet(answers, wellbeing_answers, work_feelings_answers):
     # Check if the sheet is empty
