@@ -241,4 +241,4 @@ def save_answers_to_sheet(answers, wellbeing_answers, work_feelings_answers):
     worksheet.append_row(row)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=80)
