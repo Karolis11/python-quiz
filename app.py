@@ -127,11 +127,6 @@ def psychological_wellbeing():
     return render_template('psychological_wellbeing.html', questions=questions, options=options)
 
 
-category_scores = {
-            'Emocinis': 0,
-            'Depersonalizacija': 0,
-            'Asmeniniu': 0
-        }
 @app.route('/work_feelings', methods=['GET', 'POST'])
 def work_feelings():
     questions = [
@@ -181,6 +176,13 @@ def work_feelings():
         'Kasdien': 4
     }
 
+    if 'category_scores' not in session:
+        session['category_scores'] = {
+            'Emocinis': 0,
+            'Depersonalizacija': 0,
+            'Asmeniniu': 0
+    }
+
     answers = []
     if request.method == 'POST':
         for i in range(1, 23):  # There are 22 questions
@@ -191,7 +193,7 @@ def work_feelings():
             })
             for category, category_questions in categories.items():
                 if questions[i - 1] in category_questions:
-                    category_scores[category] += option_scores[answer]
+                    session['category_scores'][category] += option_scores[answer]
                     break
 
         session['work_feelings_answers'] = answers  # Store in session
@@ -207,6 +209,12 @@ def thank_you():
     answers = session.get('answers', [])
     wellbeing_answers = session.get('psychological_wellbeing_answers', [])
     work_feelings_answers = session.get('work_feelings_answers', [])
+
+    category_scores = session.get('category_scores', {
+        'Emocinis': 0,
+        'Depersonalizacija': 0,
+        'Asmeniniu': 0
+    })
 
     # Save answers to Google Spreadsheet
     save_answers_to_sheet(answers, wellbeing_answers, work_feelings_answers)
