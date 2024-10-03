@@ -4,8 +4,9 @@
     <p>Jūsų atsakymai buvo užregistruoti. Dėkojame už dalyvavimą tyrime.</p>
     <h3>Jūsų rezultatai:</h3>
     <ul>
+    {% set category_names = {'Emocinis': 'Emocinis išsekimas', 'Depersonalizacija': 'Depersonalizacija', 'Asmeniniu': 'Asmeninių pasiekimų vertinimas'}%}
     {% for category, score in scores.items() %}
-        <li>{{ category }}: {{ score }}</li>
+        <li>{{ category_names[category] }}: {{ score }}</li>
     {% endfor %}
     </ul>
 {% endblock %}

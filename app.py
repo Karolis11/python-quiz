@@ -129,9 +129,9 @@ def psychological_wellbeing():
 
 
 category_scores = {
-            'Emocinis issekimas': 0,
+            'Emocinis': 0,
             'Depersonalizacija': 0,
-            'Asmeniniu pasiekimu vertinimas': 0
+            'Asmeniniu': 0
         }
 @app.route('/work_feelings', methods=['GET', 'POST'])
 def work_feelings():
@@ -161,9 +161,9 @@ def work_feelings():
     ]
 
     categories = {
-        'Emocinis issekimas': [questions[i] for i in [0, 1, 2, 5, 7, 12, 13, 15, 19]],
+        'Emocinis': [questions[i] for i in [0, 1, 2, 5, 7, 12, 13, 15, 19]],
         'Depersonalizacija': [questions[i] for i in [4, 9, 10, 14, 21]],
-        'Asmeniniu pasiekimu vertinimas': [questions[i] for i in [3, 6, 8, 11, 16, 17, 18, 20]]
+        'Asmeniniu': [questions[i] for i in [3, 6, 8, 11, 16, 17, 18, 20]]
     }
     
     options = [
