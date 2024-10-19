@@ -2,19 +2,19 @@
 {% extends "base.html" %}
 {% block content %}
     <h2>Jūsų jausmai apie darbą mokykloje</h2>
-    <p>Žemiau pateikti teiginiai apie Jūsų savijautą dirbant mokykloje. Jei niekuomet taip nesijautėte, pažymėkite „niekada“. Jei esate tą jautęsi, nurodykite kaip dažnai, pasirinkdami atitinkamus atsakymus (vienas atsakymas vienam teiginiui, atsakymą pažymėkite pvz. X).</p>
+    <p>Žemiau pateikti teiginiai apie Jūsų savijautą dirbant mokykloje. Jei niekuomet taip nesijautėte, pažymėkite „niekada“. Jei esate tą jautęsi, nurodykite kaip dažnai, pasirinkdami atitinkamus atsakymus.</p>
 
-    <form method="post" onsubmit="showLoading();">
+    <form method="post">
         <table>
             <thead>
                 <tr>
                     <th>Eil. Nr.</th>
                     <th>Teiginiai</th>
-                    <th>Niekada (0)</th>
-                    <th>Keletą kartų per metus ar rečiau (1)</th>
-                    <th>Keletą kartų per mėnesį (2)</th>
-                    <th>Kartą per savaitę (3)</th>
-                    <th>Kasdien (4)</th>
+                    <th>Niekada</th>
+                    <th>Keletą kartų per metus ar rečiau</th>
+                    <th>Keletą kartų per mėnesį</th>
+                    <th>Kartą per savaitę</th>
+                    <th>Kasdien</th>
                 </tr>
             </thead>
             <tbody>
@@ -36,7 +36,7 @@
         <button type="submit">Pateikti atsakymus</button>
     </form>
 
-    <!-- Loading Overlay -->
+    <!-- Loading Overlay
     <div id="loading-overlay" class="loading-overlay">
         <div class="loading-content">
             <p>Rezultatas skaičiuojamas...</p>
@@ -72,5 +72,5 @@
         function showLoading() {
             document.getElementById('loading-overlay').style.display = 'flex';
         }
-    </script>
+    </script> -->
 {% endblock %}

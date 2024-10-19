@@ -48,7 +48,17 @@ questions = [
         ]
     },
     {
-        'question': '3. Jūsų amžius:',
+        'question': '3. Šiais metais turite:',
+        'options': [
+            '0,5 etato arba mažiau',
+            '0,5 - 0,8 etato',
+            '0,9 - 1,1 etato',
+            '1,2 - 1,5 etato',
+            'Daugiau kaip 1,5 etato'
+        ]
+    },
+    {
+        'question': '4. Jūsų amžius:',
         'options': [
             'Iki 29',
             '30-39',
@@ -206,9 +216,20 @@ def work_feelings():
         session['work_feelings_answers'] = answers  # Store in session
 
         # Redirect to a thank you or results page after submission
-        return redirect(url_for('thank_you'))
+        return redirect(url_for('email'))
 
     return render_template('work_feelings.html', questions=questions, options=options)
+
+
+@app.route('/email', methods=['GET', 'POST'])
+def email():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        session['email'] = email
+
+        return redirect(url_for('thank_you'))
+
+    return render_template('email.html', title="Įveskite savo el. paštą")
 
 
 @app.route('/thank_you')
@@ -229,15 +250,15 @@ def thank_you():
         'Asmeniniu': []
     })
 
-    category_averages = {}
-    for category, score in category_scores.items():
-        num_questions = len(categories[category])
-        category_averages[category] = score / num_questions if num_questions > 0 else 0
+    # category_averages = {}
+    # for category, score in category_scores.items():
+    #     num_questions = len(categories[category])
+    #     category_averages[category] = score / num_questions if num_questions > 0 else 0
 
     # Save answers to Google Spreadsheet
     save_answers_to_sheet(answers, wellbeing_answers, work_feelings_answers)
 
-    return render_template('thank_you.html', title="Ačiū", scores=category_averages)
+    return render_template('thank_you.html', title="Ačiū", scores=category_scores)
 
 def save_answers_to_sheet(answers, wellbeing_answers, work_feelings_answers):
     # Check if the sheet is empty
@@ -261,6 +282,10 @@ def save_answers_to_sheet(answers, wellbeing_answers, work_feelings_answers):
     # Append work feelings answers
     for work_feeling_answer in work_feelings_answers:
         row.extend([work_feeling_answer['selected_option']])
+
+    # Append the optional email
+    email = session.get('email')
+    row.append(email if email else '-')
 
     # Append the row to the worksheet
     worksheet.append_row(row)
