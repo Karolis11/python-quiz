@@ -30,16 +30,16 @@ def start():
 # Define the questions
 questions = [
     {
-        'question': '1. Ar esate dalyvavę Mokytojų palaikymo ratuose (MPR)?',
+        'question': 'Ar dalyvaujate Mokytojų palaikymo ratuose (MPR)?',
         'options': [
-            'Nesu dalyvavęs (-usi)',
+            'Nedalyvauju MPR',
             'Dalyvauju MPR pirmi metai',
             'Dalyvauju MPR antri metai',
             'Dalyvauju MPR treti metai'
         ]
     },
     {
-        'question': '2. Mokykloje dirbate:',
+        'question': 'Mokykloje dirbate:',
         'options': [
             'Iki vienerių metų',
             'Nuo vienerių iki 5 metų',
@@ -48,7 +48,7 @@ questions = [
         ]
     },
     {
-        'question': '3. Šiais metais turite:',
+        'question': 'Šiais metais turite:',
         'options': [
             '0,5 etato arba mažiau',
             '0,5 - 0,8 etato',
@@ -58,7 +58,7 @@ questions = [
         ]
     },
     {
-        'question': '4. Jūsų amžius:',
+        'question': 'Jūsų amžius:',
         'options': [
             'Iki 29',
             '30-39',
