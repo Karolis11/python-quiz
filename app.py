@@ -226,6 +226,8 @@ def email():
     if request.method == 'POST':
         email = request.form.get('email')
         session['email'] = email
+        subscription = request.form.get('subscribe')
+        session['subscribe'] = subscription
 
         return redirect(url_for('thank_you'))
 
@@ -286,6 +288,9 @@ def save_answers_to_sheet(answers, wellbeing_answers, work_feelings_answers):
     # Append the optional email
     email = session.get('email')
     row.append(email if email else '-')
+
+    subscribe = session.get('subscribe')
+    row.append(subscribe if subscribe else '-')
 
     # Append the row to the worksheet
     worksheet.append_row(row)

@@ -1,11 +1,15 @@
 {% extends "base.html" %}
 {% block content %}
     <h1>Ačiū už atsakymus!</h1>
-    <p>Norintiems stebėti savo rezultatų pokytį ir sutinkantys dalyvauti longitudiniame tyrime, nurodykite el. paštą, kuriuo atsiųsime  apklausą mokslo metų pabaigoje ir duomenų palyginimą su šios apklausos duomenimis.</p>
+    <p>Norintiems stebėti savo rezultatų pokytį ir sutinkantys dalyvauti longitudiniame tyrime, nurodykite el. paštą.</p>
     
     <form method="POST" onsubmit="showLoading();">
         <label for="email">El. paštas (neprivalomas):</label>
         <input type="email" id="email" name="email" placeholder="el.pastas@pavyzdys.lt">
+        <br>
+        <input type="checkbox" id="subscribe" name="subscribe" value="1">
+        <label for="subscribe">Jeigu sutinkate gauti informaciją apie Mokytojų Palaikymo Ratus, pažymėkite.</label>
+        <br>
         <button type="submit">Pateikti</button>
     </form>
 
