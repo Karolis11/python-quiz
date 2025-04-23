@@ -16,6 +16,15 @@ SPREADSHEET_ID = '1MQmCQIdUVQgbMJYyVK8x9tW8_ztKmNytjEV4kgJ7SY4'
 sh = gc.open_by_key(SPREADSHEET_ID)
 worksheet = sh.sheet1
 
+SERVICE_ACCOUNT_FILE = 'quiz-input-acd45b255b71.json'
+SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
+credentials = Credentials.from_service_account_file(
+    SERVICE_ACCOUNT_FILE, scopes=SCOPES)
+gc = gspread.authorize(credentials)
+SPREADSHEET_ID = '1kM7sFQfGjVMgi__bP1WqmIGjKbqQTavkQayoC8aHqlc'  
+sh = gc.open_by_key(SPREADSHEET_ID)
+worksheet_input = sh.sheet1
+
 @app.route('/')
 def index():
     return render_template('index.html', title="Sveiki atvykę")
@@ -37,6 +46,17 @@ questions = [
             'Dalyvauju MPR antri metai',
             'Dalyvauju MPR treti metai'
         ]
+    },
+    {
+        'question': 'Šie 2024/2025 mokslo metai Jums buvo už praėjusius 2023/2024 mokslo metus:',
+        'options': [
+            'Lengvesni',
+            'Tokie patys',
+            'Sunkesni',
+        ]
+    },
+    {
+        'question': 'Gal galite įvardinti kas lėmė šių ir praėjusių metų skirtumą (neprivalomas):'
     },
     {
         'question': 'Mokykloje dirbate:',
@@ -120,8 +140,20 @@ def psychological_wellbeing():
         'Visiškai sutinku'
     ]
 
+    # Define the scoring for each option
+    option_scores = {
+        'Visiškai nesutinku': 1,
+        'Nesutinku': 2,
+        'Nei sutinku, nei nesutinku': 3,
+        'Sutinku': 4,
+        'Visiškai sutinku': 5
+    }
+
+    total_score = 0
+
     if request.method == 'POST':
         answers = []
+
         for i in range(1, 11):
             answer = request.form.get(f'question_{i}')
             answers.append({
@@ -129,7 +161,13 @@ def psychological_wellbeing():
                 'selected_option': answer
             })
 
+        for answer in answers:
+            selected_option = answer['selected_option']
+            if selected_option in option_scores:
+                total_score += option_scores[selected_option]
+
         session['psychological_wellbeing_answers'] = answers  # Store in session
+        session['Wellbeing_score'] = total_score
 
         # Redirect to a thank you or results page after submission
         return redirect(url_for('work_feelings'))
@@ -168,7 +206,8 @@ def work_feelings():
         session['categories'] = {
             'Emocinis': [questions[i] for i in [0, 1, 2, 5, 7, 12, 13, 15, 19]],
             'Depersonalizacija': [questions[i] for i in [4, 9, 10, 14, 21]],
-            'Asmeniniu': [questions[i] for i in [3, 6, 8, 11, 16, 17, 18, 20]]
+            'Asmeniniu': [questions[i] for i in [3, 6, 8, 11, 16, 17, 18, 20]],
+            'Wellbeing': [questions[i] for i in []],
         }
     
     options = [
@@ -191,7 +230,8 @@ def work_feelings():
         session['category_scores'] = {
             'Emocinis': 0,
             'Depersonalizacija': 0,
-            'Asmeniniu': 0
+            'Asmeniniu': 0,
+            'Wellbeing': 0
     }
 
     answers = []
@@ -199,7 +239,8 @@ def work_feelings():
         session['category_scores'] = {
             'Emocinis': 0,
             'Depersonalizacija': 0,
-            'Asmeniniu': 0
+            'Asmeniniu': 0,
+            'Wellbeing': 0
         }
 
         for i in range(1, 23):  # There are 22 questions
@@ -212,6 +253,8 @@ def work_feelings():
                 if questions[i - 1] in category_questions:
                     session['category_scores'][category] += option_scores[answer]
                     break
+        
+        session['category_scores']['Wellbeing'] = session['Wellbeing_score']
 
         session['work_feelings_answers'] = answers  # Store in session
 
@@ -226,8 +269,12 @@ def email():
     if request.method == 'POST':
         email = request.form.get('email')
         session['email'] = email
-        subscription = request.form.get('subscribe')
-        session['subscribe'] = subscription
+        rezult = request.form.get('rezult')
+        stebeti = request.form.get('stebeti')
+        info = request.form.get('info')
+        session['rezult'] = rezult
+        session['stebeti'] = stebeti
+        session['info'] = info
 
         return redirect(url_for('thank_you'))
 
@@ -243,13 +290,15 @@ def thank_you():
     category_scores = session.get('category_scores', {
         'Emocinis': 0,
         'Depersonalizacija': 0,
-        'Asmeniniu': 0
+        'Asmeniniu': 0,
+        'Wellbeing': 0,
     })
 
     categories = session.get('categories', {
         'Emocinis': [],
         'Depersonalizacija': [],
-        'Asmeniniu': []
+        'Asmeniniu': [],
+        'Wellbeing': [],
     })
 
     # category_averages = {}
@@ -260,7 +309,40 @@ def thank_you():
     # Save answers to Google Spreadsheet
     save_answers_to_sheet(answers, wellbeing_answers, work_feelings_answers)
 
-    return render_template('thank_you.html', title="Ačiū", scores=category_scores)
+    # Get data from the input sheet
+    input_data = worksheet_input.get_all_records()
+    # Find the row with the matching email
+    session['pg'] = 0
+    session['ei'] = 0
+    session['de'] = 0
+    session['apv'] = 0
+    for row in input_data:
+        if row['email'] == session.get('email'):
+            session['pg'] = row['pg']
+            session['ei'] = row['ei']
+            session['de'] = row['de']
+            session['apv'] = row['apv']
+            break
+    
+
+    # Clear session data
+    session.pop('answers', None)
+    session.pop('psychological_wellbeing_answers', None)
+    session.pop('work_feelings_answers', None)
+    session.pop('current_question', None)
+    session.pop('user_id', None)
+    session.pop('email', None)
+    session.pop('category_scores', None)
+    session.pop('categories', None)
+    session.pop('rezult', None)
+    session.pop('stebeti', None)
+    session.pop('info', None)
+    session.pop('pg', None)
+    session.pop('ei', None)
+    session.pop('de', None)
+    session.pop('apv', None)
+
+    return render_template('thank_you.html', title="Ačiū", scores=category_scores, pg=session['pg'], ei=session['ei'], de=session['de'], apv=session['apv'])
 
 def save_answers_to_sheet(answers, wellbeing_answers, work_feelings_answers):
     # Check if the sheet is empty
@@ -289,8 +371,18 @@ def save_answers_to_sheet(answers, wellbeing_answers, work_feelings_answers):
     email = session.get('email')
     row.append(email if email else '-')
 
-    subscribe = session.get('subscribe')
-    row.append(subscribe if subscribe else '-')
+    rezult = session.get('rezult')
+    stebeti = session.get('stebeti')
+    info = session.get('info')
+    row.append(rezult if rezult else '-')
+    row.append(stebeti if stebeti else '-')
+    row.append(info if info else '-')
+
+    # Append the category scores
+    for category, score in session['category_scores'].items():
+        row.append(score)
+
+    
 
     # Append the row to the worksheet
     worksheet.append_row(row)

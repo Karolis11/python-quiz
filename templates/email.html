@@ -4,11 +4,17 @@
     <p>Norintiems stebėti savo rezultatų pokytį ir sutinkantys dalyvauti longitudiniame tyrime, nurodykite el. paštą.</p>
     
     <form method="POST" onsubmit="showLoading();">
-        <label for="email">El. paštas (neprivalomas):</label>
-        <input type="email" id="email" name="email" placeholder="el.pastas@pavyzdys.lt">
+        <input type="checkbox" id="rezult" name="rezult" value="1">
+        <label for="subscribe">Norėčiau gauti šios anketos rezultatus.</label>
         <br>
-        <input type="checkbox" id="subscribe" name="subscribe" value="1">
-        <label for="subscribe">Jeigu sutinkate gauti informaciją apie Mokytojų Palaikymo Ratus, pažymėkite.</label>
+        <input type="checkbox" id="stebeti" name="stebeti" value="1">
+        <label for="subscribe">Norėčiau ir toliau stebėti savo emocinės savijautos rezultatus kitais mokslo metais.</label>
+        <br>
+        <input type="checkbox" id="info" name="info" value="1">
+        <label for="subscribe">Norėčiau gauti informaciją apie Mokytojų Palaikymo Ratus.</label>
+        <br>
+        <label for="email">El. paštas:</label>
+        <input type="email" id="email" name="email" placeholder="el.pastas@pavyzdys.lt">
         <br>
         <button type="submit">Pateikti</button>
     </form>

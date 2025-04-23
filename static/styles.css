@@ -45,6 +45,25 @@ p {
     margin-right: 10px;
 }
 
+textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #cccccc;
+    border-radius: 3px;
+    box-sizing: border-box;
+    resize: vertical; /* Allows vertical resizing only */
+    margin-top: 10px;
+    margin-bottom: 20px;
+    background-color: #f9f9f9;
+}
+
+textarea:focus {
+    border-color: #50b3a2;
+    outline: none;
+    background-color: #ffffff;
+}
+
 button {
     background: #50b3a2;
     color: #ffffff;
