@@ -324,6 +324,12 @@ def thank_you():
             session['apv'] = row['apv']
             break
     
+    previous_results = {
+        'pg': session['pg'],
+        'ei': session['ei'],
+        'de': session['de'],
+        'apv': session['apv'],
+    }
 
     # Clear session data
     session.pop('answers', None)
@@ -342,7 +348,7 @@ def thank_you():
     session.pop('de', None)
     session.pop('apv', None)
 
-    return render_template('thank_you.html', title="Ačiū", scores=category_scores, pg=session['pg'], ei=session['ei'], de=session['de'], apv=session['apv'])
+    return render_template('thank_you.html', title="Ačiū", scores=category_scores, previous_results=previous_results)
 
 def save_answers_to_sheet(answers, wellbeing_answers, work_feelings_answers):
     # Check if the sheet is empty

@@ -12,10 +12,10 @@
     <p>*0 rodomi tuo atveju, jei prieš tai nedalyvavote tyrime, arba nepalikote mums savo kontaktinių duomenų. Jei norėtumėt ateityje stebėti savo psichologinės gerovės rodiklius, būtina nurodyti savo el. paštą.</p>
     <h3>Jūsų rezultatai praėjusio tyrimo, 2024 rudens:</h3>
     <ul>
-    <li>Emocinis išsekimas: {{ ei }}</li>
-    <li>Depersonalizacija: {{ de }}</li>
-    <li>Asmeninių pasiekimų vertinimas: {{ apv }}</li>
-    <li>Psichologinė gerovė: {{ pg }}</li>
+        {% set category_names_previous = {'ei': 'Emocinis išsekimas', 'de': 'Depersonalizacija', 'apv': 'Asmeninių pasiekimų vertinimas', 'pg': 'Psichologinė gerovė'}%}
+        {% for key, value in previous_results.items() %}
+            <li>{{ category_names_previous[key] }}: {{ value }}</li>
+        {% endfor %}
     </ul>
     <p>Psichologinė gerovė  suprantama per asmens autonomiją, aplinkos valdymą, asmeninį augimą, teigiamus santykius su kitais, gyvenimo tikslą ir savęs priėmimą. Didesnis balas reiškia geresnę psichologinę gerovę.</p>
     <p>Perdegimo sindromą atskleidžia trys dimensijos: emocinis išsekimas, depersonalizacija, asmeninių pasiekimų vertinimas.</p>
