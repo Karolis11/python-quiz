@@ -42,6 +42,7 @@ questions = [
         'question': 'Ar dalyvaujate Mokytojų palaikymo ratuose (MPR)?',
         'options': [
             'Nedalyvauju MPR',
+            'Dalyvavau MPR, bet šiuo metu nebedalyvauju',
             'Dalyvauju MPR pirmi metai',
             'Dalyvauju MPR antri metai',
             'Dalyvauju MPR treti metai'
@@ -204,10 +205,10 @@ def work_feelings():
 
     if 'categories' not in session:
         session['categories'] = {
+            'Wellbeing': [questions[i] for i in []],
             'Emocinis': [questions[i] for i in [0, 1, 2, 5, 7, 12, 13, 15, 19]],
             'Depersonalizacija': [questions[i] for i in [4, 9, 10, 14, 21]],
             'Asmeniniu': [questions[i] for i in [3, 6, 8, 11, 16, 17, 18, 20]],
-            'Wellbeing': [questions[i] for i in []],
         }
     
     options = [
@@ -228,19 +229,19 @@ def work_feelings():
 
     if 'category_scores' not in session:
         session['category_scores'] = {
+            'Wellbeing': 0,
             'Emocinis': 0,
             'Depersonalizacija': 0,
             'Asmeniniu': 0,
-            'Wellbeing': 0
     }
 
     answers = []
     if request.method == 'POST':
         session['category_scores'] = {
+            'Wellbeing': 0,
             'Emocinis': 0,
             'Depersonalizacija': 0,
             'Asmeniniu': 0,
-            'Wellbeing': 0
         }
 
         for i in range(1, 23):  # There are 22 questions
@@ -288,17 +289,17 @@ def thank_you():
     work_feelings_answers = session.get('work_feelings_answers', [])
 
     category_scores = session.get('category_scores', {
+        'Wellbeing': 0,
         'Emocinis': 0,
         'Depersonalizacija': 0,
         'Asmeniniu': 0,
-        'Wellbeing': 0,
     })
 
     categories = session.get('categories', {
+        'Wellbeing': [],
         'Emocinis': [],
         'Depersonalizacija': [],
         'Asmeniniu': [],
-        'Wellbeing': [],
     })
 
     # category_averages = {}
@@ -331,24 +332,11 @@ def thank_you():
         'apv': session['apv'],
     }
 
-    # Clear session data
-    session.pop('answers', None)
-    session.pop('psychological_wellbeing_answers', None)
-    session.pop('work_feelings_answers', None)
-    session.pop('current_question', None)
-    session.pop('user_id', None)
-    session.pop('email', None)
-    session.pop('category_scores', None)
-    session.pop('categories', None)
-    session.pop('rezult', None)
-    session.pop('stebeti', None)
-    session.pop('info', None)
-    session.pop('pg', None)
-    session.pop('ei', None)
-    session.pop('de', None)
-    session.pop('apv', None)
+    # Define a custom order for the categories
+    custom_order = ['Wellbeing', 'Emocinis', 'Depersonalizacija', 'Asmeniniu']
+    sorted_category_scores = {key: category_scores[key] for key in custom_order if key in category_scores}
 
-    return render_template('thank_you.html', title="Ačiū", scores=category_scores, previous_results=previous_results)
+    return render_template('thank_you.html', title="Ačiū", scores=sorted_category_scores, previous_results=previous_results)
 
 def save_answers_to_sheet(answers, wellbeing_answers, work_feelings_answers):
     # Check if the sheet is empty
