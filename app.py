@@ -54,17 +54,6 @@ questions = [
         ]
     },
     {
-        'question': 'Šie 2024/2025 mokslo metai Jums buvo už praėjusius 2023/2024 mokslo metus:',
-        'options': [
-            'Lengvesni',
-            'Tokie patys',
-            'Sunkesni',
-        ]
-    },
-    {
-        'question': 'Gal galite įvardinti kas lėmė šių ir praėjusių metų skirtumą (neprivalomas):'
-    },
-    {
         'question': 'Mokykloje dirbate:',
         'options': [
             'Iki vienerių metų',
