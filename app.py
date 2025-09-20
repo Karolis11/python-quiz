@@ -73,6 +73,9 @@ questions = [
         ]
     },
     {
+        'question': 'Miestas: (įrašyti)'
+    },
+    {
         'question': 'Jūsų amžius:',
         'options': [
             'Iki 29',
