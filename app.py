@@ -334,7 +334,7 @@ def email():
     return render_template('email.html', title="Įveskite savo el. paštą")
 
 
-@app.route('/thank_you')
+@app.route('/thank_you', methods=['GET', 'POST'])
 def thank_you():
     answers = session.get('answers', [])
     wellbeing_answers = session.get('psychological_wellbeing_answers', [])
@@ -354,40 +354,45 @@ def thank_you():
         'Asmeniniu': [],
     })
 
-    # category_averages = {}
-    # for category, score in category_scores.items():
-    #     num_questions = len(categories[category])
-    #     category_averages[category] = score / num_questions if num_questions > 0 else 0
-
     # Save answers to Google Spreadsheet
     save_answers_to_sheet(answers, wellbeing_answers, work_feelings_answers)
 
     # Get data from the input sheet
     input_data = worksheet_input.get_all_records()
-    # Find the row with the matching email
     session['pg'] = 0
     session['ei'] = 0
     session['de'] = 0
     session['apv'] = 0
     for row in input_data:
-        if row['email'] == session.get('email'):
-            session['pg'] = row['pg']
-            session['ei'] = row['ei']
-            session['de'] = row['de']
-            session['apv'] = row['apv']
+        if row.get('email') == session.get('email'):
+            session['pg'] = row.get('pg', 0)
+            session['ei'] = row.get('ei', 0)
+            session['de'] = row.get('de', 0)
+            session['apv'] = row.get('apv', 0)
             break
-    
+
     previous_results = {
-        'pg': session['pg'],
         'ei': session['ei'],
         'de': session['de'],
         'apv': session['apv'],
     }
 
-    # Define a custom order for the categories
     custom_order = ['Wellbeing', 'Emocinis', 'Depersonalizacija', 'Asmeniniu']
     sorted_category_scores = {key: category_scores[key] for key in custom_order if key in category_scores}
 
+    # If no email, show second chance page
+    if not session.get('email'):
+        if request.method == 'POST':
+            email = request.form.get('email', '').strip()
+            if email:
+                session['email'] = email
+                return redirect(url_for('thank_you'))
+            else:
+                # Show simple thank you if still no email
+                return render_template('thank_you_no_email.html', show_form=False)
+        return render_template('thank_you_no_email.html', show_form=True)
+
+    # If email is present, show full results
     return render_template('thank_you.html', title="Ačiū", scores=sorted_category_scores, previous_results=previous_results)
 
 def save_answers_to_sheet(answers, wellbeing_answers, work_feelings_answers):
@@ -428,10 +433,24 @@ def save_answers_to_sheet(answers, wellbeing_answers, work_feelings_answers):
     for category, score in session['category_scores'].items():
         row.append(score)
 
-    
+    # Find if user_id already exists in the sheet
+    all_rows = worksheet.get_all_values()
+    user_id_col = 1  # 0-based index for 'User ID' column
+    found_row = None
+    for idx, r in enumerate(all_rows):
+        if len(r) > user_id_col and r[user_id_col] == user_id:
+            found_row = idx + 1  # gspread is 1-based
+            break
 
-    # Append the row to the worksheet
-    worksheet.append_row(row)
+    if found_row:
+        # Update the row (especially if email was missing before)
+        # Only update the email and extra info columns, not answers
+        # Email is at col: len(row) - (number of appended fields after answers)
+        # Let's update the whole row for simplicity
+        worksheet.update([row], f'A{found_row}:AZ{found_row}')
+    else:
+        worksheet.append_row(row)
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80)

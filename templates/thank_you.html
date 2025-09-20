@@ -2,27 +2,28 @@
 {% block content %}
     <h2>Ačiū už Jūsų atsakymus!</h2>
     <p>Jūsų atsakymai buvo užregistruoti. Dėkojame už dalyvavimą tyrime.</p>
-    <h3>Jūsų rezultatai 2025 pavasario:</h3>
+    <h3>Jūsų 2025 m. rudens rezultatai:</h3>
     <ul>
-    {% set category_names = {'Emocinis': 'Emocinis išsekimas', 'Depersonalizacija': 'Depersonalizacija', 'Asmeniniu': 'Asmeninių pasiekimų vertinimas', 'Wellbeing': 'Psichologinė gerovė'}%}
+    {% set category_names = {'Emocinis': 'Emocinis išsekimas', 'Depersonalizacija': 'Depersonalizacija', 'Asmeniniu': 'Asmeninių pasiekimų vertinimas', 'Wellbeing': 'Emocinis atsparumas'}%}
     {% for category, score in scores.items() %}
         <li>{{ category_names[category] }}: {{ score }}</li>
     {% endfor %}
     </ul>
-    <p>*0 rodomi tuo atveju, jei prieš tai nedalyvavote tyrime, arba nepalikote mums savo kontaktinių duomenų. Jei norėtumėt ateityje stebėti savo psichologinės gerovės rodiklius, būtina nurodyti savo el. paštą.</p>
-    <h3>Jūsų rezultatai praėjusio tyrimo, 2024 rudens:</h3>
+    <p>*0 rodomi tuo atveju, jei prieš tai nedalyvavote tyrime, arba nepalikote mums savo kontaktinių duomenų.</p>
+    <h3>Jūsų rezultatai praėjusių tyrimų:</h3>
+    <h4>2024 rudens:</h4>
     <ul>
-        {% set category_names_previous = {'ei': 'Emocinis išsekimas', 'de': 'Depersonalizacija', 'apv': 'Asmeninių pasiekimų vertinimas', 'pg': 'Psichologinė gerovė'}%}
+        {% set category_names_previous = {'ei': 'Emocinis išsekimas', 'de': 'Depersonalizacija', 'apv': 'Asmeninių pasiekimų vertinimas'}%}
         {% for key, value in previous_results.items() %}
             <li>{{ category_names_previous[key] }}: {{ value }}</li>
         {% endfor %}
     </ul>
-    <p>Psichologinė gerovė  suprantama per asmens autonomiją, aplinkos valdymą, asmeninį augimą, teigiamus santykius su kitais, gyvenimo tikslą ir savęs priėmimą. Didesnis balas reiškia geresnę psichologinę gerovę.</p>
+    <p>Emocinis atsparumas – tai gebėjimas susidoroti su stresu, sunkumais ar krizinėmis situacijomis, išlaikant emocinę pusiausvyrą ir gebėjimą atsigauti. Didesnis balas reiškia didesnį emocinį atsparumą.</p>
     <p>Perdegimo sindromą atskleidžia trys dimensijos: emocinis išsekimas, depersonalizacija, asmeninių pasiekimų vertinimas.</p>
     <p>Emocinio išsekimo ir Depersonalizacijos dimensijose aukštesnis įvertis rodo didesnę profesinio perdegimo riziką, o Asmeninių pasiekimų vertinimo dimensijoje -  žemesnis įvertis.</p>
     <p>Emociniam išsekimui būdingas emocinio pervargimo jausmas ir žemas energijos lygis. Emocinį išsekimą patiriantys darbuotojai jaučia emocinę įtampą, yra suirzę, stengiasi kuo mažiau kontaktuoti su aplinkiniais, atsiriboti nuo jų. Emocinis išsekimas yra žemas - kai surinkote 11 arba mažiau taškų, vidutinis - kai surinkote 12 – 19 , aukštas – 20 ir daugiau taškų.</p>
     <p>Esminis depersonalizacija komponentas yra atstumo sudarymas tarp perdegusiojo ir asmens, kuriam teikiama tam tikra paslauga. Depersonalizacija reiškiasi neigiamu, cinišku elgesiu, emociniu atsitraukimu, apimančiu nusivylimą, nepasitikėjimą, neviltingumą arba perdėtu šaltumu bendraujant su kitais žmonėmis darbe. Depersonalizacija yra žema - kai surinkote 5  arba mažiau taškų, vidutinė - kai surinkote 6 – 10 , aukšta – 11  ir daugiau taškų.</p>
     <p>Asmeninių pasiekimų vertinimas  - savo kompetencijos, produktyvumo, efektyvumo vertinimas. Žemas pasitenkinimas reiškiasi neveiksmingumu darbe, sumažėja darbuotojo pasitikėjimas savo jėgomis, kompetencija ir gebėjimu sėkmingai dirbti, nuvertina savo pasiekimus ir svarbumą darbe. Darbuotojas jaučiasi neefektyvus ir nenaudingas savo darbe ir mano, kad jo asmeninis įnašas į organizacijos veiklą nebesvarbus. Asmeninių pasitenkinimų vertinimas yra žemas - kai surinkote 16 arba mažiau taškų, vidutinis - kai surinkote 17 – 23 , aukštas – 24 ir daugiau taškų. </p>
     <p>Jeigu Jūsų rezultatai patenka arba į aukštą emocinį išsekimą, arba į aukštą depersonalizaciją, arba į žemą asmeninių pasiekimų vertinimą – Jūs patiriate perdegimo sindromą (pagal C. Maslach MBI klausimyną).</p>
-    <p><b>Jei norėtumėte dalyvauti longitudiniame tyrime, bet pamiršote įrašyti el. paštą, parašykite mums adresu: info@mokytojuratai.com.</b></p>
+    <p><b>Rekomenduojame susisiekti su sveikatos priežiūros specialistu ir atlikti detalesnius tyrimus.</b></p>
 {% endblock %}

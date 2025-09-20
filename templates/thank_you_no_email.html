@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>Ačiū už Jūsų atsakymus!</h2>
+    <p>Jūsų atsakymai buvo užregistruoti. Dėkojame už dalyvavimą tyrime.</p>
+    {% if show_form %}
+        <form method="post">
+            <p>Jeigu norėtumėte matyti savo asmeninius rezultatus, įrašykite el. paštą:</p>
+            <input type="email" name="email" required placeholder="el.pastas@pavyzdys.lt">
+            <br>
+            <button type="submit">Pateikti</button>
+        </form>
+    {% else %}
+        <p>Jūsų atsakymai buvo užregistruoti. Dėkojame už dalyvavimą tyrime.</p>
+    {% endif %}
+{% endblock %}
