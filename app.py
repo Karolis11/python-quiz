@@ -1,3 +1,8 @@
+# ssh -i "quizApp.pem" ec2-user@13.60.246.112  
+# sudo pkill gunicorn
+# git pull
+# sudo gunicorn -w 4 -b 0.0.0.0:80 app:app
+
 from flask import Flask, render_template, request, session, redirect, url_for
 import gspread
 from google.oauth2.service_account import Credentials
@@ -97,26 +102,77 @@ def questions_route():
 
     current_question = session['current_question']
 
+    # Define the 1.1 question and the options that trigger it
+    q1_1 = {
+        'question': 'MPR dalyvaujate/ -ote:',
+        'options': [
+            'Nuotoliniu būdu',
+            '„Gyvi“ susitikimai'
+        ]
+    }
+    trigger_options = [
+        'Dalyvavau MPR, bet šiuo metu nebedalyvauju',
+        'Dalyvauju MPR pirmi metai',
+        'Dalyvauju MPR antri metai',
+        'Dalyvauju MPR treti metai'
+    ]
+
     if current_question >= len(questions):
         return redirect(url_for('psychological_wellbeing'))
 
     question_data = questions[current_question]
 
+    # Special handling for question 1 and 1.1
+    if current_question == 0:
+        if request.method == 'POST':
+            selected_option = request.form.get('option')
+            # If 1.1 is being answered
+            if 'option_1_1' in request.form:
+                selected_option_1_1 = request.form.get('option_1_1')
+                # Store both answers
+                session['answers'].append({
+                    'question': question_data['question'],
+                    'selected_option': session['q1_answer']
+                })
+                session['answers'].append({
+                    'question': q1_1['question'],
+                    'selected_option': selected_option_1_1
+                })
+                session['current_question'] += 1
+                session.pop('q1_answer', None)
+                return redirect(url_for('questions_route'))
+            # If only Q1 is being answered
+            if selected_option in trigger_options:
+                session['q1_answer'] = selected_option
+                # Render Q1 and Q1.1 together
+                return render_template('questions.html', question=question_data, question_number=1, total_questions=len(questions), show_q1_1=True, q1_1=q1_1, selected_option=selected_option, title="Klausimas 1")
+            else:
+                # Store only Q1 answer
+                session['answers'].append({
+                    'question': question_data['question'],
+                    'selected_option': selected_option
+                })
+                session['answers'].append({
+                    'question': q1_1['question'],
+                    'selected_option': '-'
+                })
+                session['current_question'] += 1
+                return redirect(url_for('questions_route'))
+        # GET request
+        return render_template('questions.html', question=question_data, question_number=1, total_questions=len(questions), show_q1_1=False, title="Klausimas 1")
+
+    # All other questions
     if request.method == 'POST':
         selected_option = request.form.get('option')
         question_text = question_data['question']
-
-        # Store the user's answer
         session['answers'].append({
             'question': question_text,
             'selected_option': selected_option
         })
-
-        # Move to the next question
         session['current_question'] += 1
         return redirect(url_for('questions_route'))
 
-    return render_template('questions.html', question=question_data, question_number=current_question + 1, total_questions=len(questions), title=f"Klausimas {current_question + 1}")
+    return render_template('questions.html', question=question_data, question_number=current_question + 1, total_questions=len(questions), show_q1_1=False, title=f"Klausimas {current_question + 1}")
 
 @app.route('/psychological_wellbeing', methods=['GET', 'POST'])
 def psychological_wellbeing():

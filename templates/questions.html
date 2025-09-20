@@ -2,22 +2,45 @@
 {% extends "base.html" %}
 {% block content %}
     <h2>Klausimas {{ question_number }} iš {{ total_questions }}</h2>
-    <p>{{ question['question'] }}</p>
     <form method="post">
-        {% if question.get('options') %}
+        {# Show Q1 and Q1.1 together if show_q1_1 is True #}
+        {% if show_q1_1 %}
+            <p>{{ question['question'] }}</p>
             {% for option in question['options'] %}
                 <div class="option">
                     <label>
-                        <input type="radio" name="option" value="{{ option }}" required>
+                        <input type="radio" name="option" value="{{ option }}" {% if selected_option == option %}checked{% endif %} disabled>
+                        {{ option }}
+                    </label>
+                </div>
+            {% endfor %}
+            <hr>
+            <p><b>1.1</b> {{ q1_1['question'] }}</p>
+            {% for option in q1_1['options'] %}
+                <div class="option">
+                    <label>
+                        <input type="radio" name="option_1_1" value="{{ option }}" required>
                         {{ option }}
                     </label>
                 </div>
             {% endfor %}
         {% else %}
-            <div class="open-ended">
-                <label for="answer">Atsakymas:</label>
-                <textarea name="option" id="answer" rows="4" cols="50"></textarea>
-            </div>
+            <p>{{ question['question'] }}</p>
+            {% if question.get('options') %}
+                {% for option in question['options'] %}
+                    <div class="option">
+                        <label>
+                            <input type="radio" name="option" value="{{ option }}" required>
+                            {{ option }}
+                        </label>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="open-ended">
+                    <label for="answer">Atsakymas:</label>
+                    <textarea name="option" id="answer" rows="4" cols="50"></textarea>
+                </div>
+            {% endif %}
         {% endif %}
         <button type="submit">Toliau</button>
     </form>
