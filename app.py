@@ -169,16 +169,20 @@ def questions_route():
 @app.route('/psychological_wellbeing', methods=['GET', 'POST'])
 def psychological_wellbeing():
     questions = [
-        'Esu patenkintas (-a) savo gyvenimu',
-        'Mano gyvenimas pakankamai kryptingas',
-        'Esu patenkintas (-a) savimi',
-        'Jaučiuosi, kad galiu savarankiškai apsispręsti dėl man svarbių dalykų gyvenime',
-        'Turiu tikslų savo gyvenime',
-        'Man patinka mano darbo ir namų aplinka',
+        'Vienaip ar kitaip dažniausiai man pavyksta susitvarkyti',
+        'Didžiuojuosi tuo, ką pasiekiau gyvenime',
+        'Dažniausiai gyvenimo įvykius priimu ramiai',
+        'Gerai sutariu su savimi',
+        'Jaučiu, kad galiu tvarkytis su daug dalykų vienu metu',
+        'Esu ryžtingas (-a)',
+        'Galiu susitvarkyti sunkiais momentais, nes esu patyręs (-usi) sunkumų ir anksčiau',
+        'Esu disciplinuotas (-a)',
+        'Aš nuolat ko nors domiuosi',
+        'Paprastai sugebu įžvelgti ką nors juokinga',
+        'Tikėjimas savimi man padeda susitvarkyti sunkiais momentais',
+        'Ištikus nelaimei esu tas (-a), kuriuo (-ia) žmonės gali pasikliauti',
         'Mano gyvenimas yra prasmingas',
-        'Man patinka veikla, kuria aš užsiimu',
-        'Manau, kad turiu visas galimybes pasiekti savo užsibrėžtų tikslų',
-        'Jaučiu, kad turiu galimybe nuolat tobulėti'
+        'Atsidūręs (-usi) sudėtingoje situacijoje dažniausiai galiu rasti išeitį',
     ]
     
     options = [
@@ -203,7 +207,7 @@ def psychological_wellbeing():
     if request.method == 'POST':
         answers = []
 
-        for i in range(1, 11):
+        for i in range(1, len(questions) + 1):
             answer = request.form.get(f'question_{i}')
             answers.append({
                 'question': questions[i - 1],
