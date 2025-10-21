@@ -46,11 +46,9 @@ questions = [
     {
         'question': 'Ar dalyvaujate Mokytojų palaikymo ratuose (MPR)?',
         'options': [
-            'Nedalyvauju MPR',
-            'Dalyvavau MPR, bet šiuo metu nebedalyvauju',
-            'Dalyvauju MPR pirmi metai',
-            'Dalyvauju MPR antri metai',
-            'Dalyvauju MPR treti metai'
+            'Dalyvauju MPR 1 metai',
+            'Dalyvauju MPR 2 ir daugiau metų',
+            'Nedalyvauju MPR'
         ]
     },
     {
@@ -103,11 +101,9 @@ def questions_route():
         ]
     }
     trigger_options = [
-        'Dalyvavau MPR, bet šiuo metu nebedalyvauju',
-        'Dalyvauju MPR pirmi metai',
-        'Dalyvauju MPR antri metai',
-        'Dalyvauju MPR treti metai'
-    ]
+        'Dalyvauju MPR 1 metai',
+        'Dalyvauju MPR 2 ir daugiau metų'
+        ]
 
     if current_question >= len(questions):
         return redirect(url_for('psychological_wellbeing'))
@@ -197,9 +193,9 @@ def psychological_wellbeing():
     option_scores = {
         'Visiškai nesutinku': 1,
         'Nesutinku': 2,
-        'Nei sutinku, nei nesutinku': 3,
-        'Sutinku': 4,
-        'Visiškai sutinku': 5
+        'Nei sutinku, nei nesutinku': 4,
+        'Sutinku': 6,
+        'Visiškai sutinku': 7
     }
 
     total_score = 0

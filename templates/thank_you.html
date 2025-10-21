@@ -4,7 +4,7 @@
     <p>Jūsų atsakymai buvo užregistruoti. Dėkojame už dalyvavimą tyrime.</p>
     <h3>Jūsų 2025 m. rudens rezultatai:</h3>
     <ul>
-    {% set category_names = {'Emocinis': 'Emocinis išsekimas', 'Depersonalizacija': 'Depersonalizacija', 'Asmeniniu': 'Asmeninių pasiekimų vertinimas', 'Wellbeing': 'Emocinis atsparumas'}%}
+    {% set category_names = {'Emocinis': 'Emocinis išsekimas', 'Depersonalizacija': 'Depersonalizacija', 'Asmeniniu': 'Asmeninių pasiekimų vertinimas', 'Wellbeing': 'Psichologinis atsparumas'}%}
     {% for category, score in scores.items() %}
         <li>{{ category_names[category] }}: {{ score }}</li>
     {% endfor %}
@@ -18,7 +18,7 @@
             <li>{{ category_names_previous[key] }}: {{ value }}</li>
         {% endfor %}
     </ul>
-    <p>Emocinis atsparumas – tai gebėjimas susidoroti su stresu, sunkumais ar krizinėmis situacijomis, išlaikant emocinę pusiausvyrą ir gebėjimą atsigauti. Didesnis balas reiškia didesnį emocinį atsparumą.</p>
+    <p>Psichologinis atsparumas – tai gebėjimas susidoroti su stresu, sunkumais ar krizinėmis situacijomis, išlaikant emocinę pusiausvyrą ir gebėjimą atsigauti. Didesnis balas reiškia didesnį emocinį atsparumą. 56 ir mažesni balai laikomi labai mažu atsparumu, 57–64 balai – žemu, 65–73 –  vidutiniškai žemu, 74–81 – vidutiniu, 82–90 – vidutiniškai dideliu ir 91–98 – dideliu atsparumu.</p>
     <p>Perdegimo sindromą atskleidžia trys dimensijos: emocinis išsekimas, depersonalizacija, asmeninių pasiekimų vertinimas.</p>
     <p>Emocinio išsekimo ir Depersonalizacijos dimensijose aukštesnis įvertis rodo didesnę profesinio perdegimo riziką, o Asmeninių pasiekimų vertinimo dimensijoje -  žemesnis įvertis.</p>
     <p>Emociniam išsekimui būdingas emocinio pervargimo jausmas ir žemas energijos lygis. Emocinį išsekimą patiriantys darbuotojai jaučia emocinę įtampą, yra suirzę, stengiasi kuo mažiau kontaktuoti su aplinkiniais, atsiriboti nuo jų. Emocinis išsekimas yra žemas - kai surinkote 11 arba mažiau taškų, vidutinis - kai surinkote 12 – 19 , aukštas – 20 ir daugiau taškų.</p>
