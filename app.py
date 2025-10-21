@@ -426,7 +426,13 @@ def save_answers_to_sheet(answers, wellbeing_answers, work_feelings_answers):
     row.append(info if info else '-')
 
     # Append the category scores
-    for category, score in session['category_scores'].items():
+    category_scores = session.get('category_scores', {
+        'Wellbeing': 0,
+        'Emocinis': 0,
+        'Depersonalizacija': 0,
+        'Asmeniniu': 0,
+    })
+    for category, score in category_scores.items():
         row.append(score)
 
     # Find if user_id already exists in the sheet
