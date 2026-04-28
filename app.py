@@ -369,6 +369,7 @@ def thank_you():
             break
 
     previous_results = {
+        'pa': session['pa'],
         'ei': session['ei'],
         'de': session['de'],
         'apv': session['apv'],
