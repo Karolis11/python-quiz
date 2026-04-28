@@ -356,13 +356,13 @@ def thank_you():
 
     # Get data from the input sheet
     input_data = worksheet_input.get_all_records()
-    session['apv'] = 0
+    session['pa'] = 0
     session['ei'] = 0
     session['de'] = 0
     session['apv'] = 0
     for row in input_data:
         if row.get('email') == session.get('email'):
-            session['apv'] = row.get('apv', 0)
+            session['pa'] = row.get('pa', 0)
             session['ei'] = row.get('ei', 0)
             session['de'] = row.get('de', 0)
             session['apv'] = row.get('apv', 0)
