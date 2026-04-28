@@ -2,7 +2,7 @@
 {% block content %}
     <h2>Ačiū už Jūsų atsakymus!</h2>
     <p>Jūsų atsakymai buvo užregistruoti. Dėkojame už dalyvavimą tyrime.</p>
-    <h3>Jūsų 2025 m. rudens rezultatai:</h3>
+    <h3>Jūsų 2026 m. pavasario rezultatai:</h3>
     <ul>
     {% set category_names = {'Emocinis': 'Emocinis išsekimas', 'Depersonalizacija': 'Depersonalizacija', 'Asmeniniu': 'Asmeninių pasiekimų vertinimas', 'Wellbeing': 'Psichologinis atsparumas'}%}
     {% for category, score in scores.items() %}
@@ -11,9 +11,9 @@
     </ul>
     <p>*0 rodomi tuo atveju, jei prieš tai nedalyvavote tyrime, arba nepalikote mums savo kontaktinių duomenų.</p>
     <h3>Jūsų rezultatai praėjusių tyrimų:</h3>
-    <h4>2024 rudens:</h4>
+    <h4>2025 rudens:</h4>
     <ul>
-        {% set category_names_previous = {'ei': 'Emocinis išsekimas', 'de': 'Depersonalizacija', 'apv': 'Asmeninių pasiekimų vertinimas'}%}
+        {% set category_names_previous = {'ei': 'Emocinis išsekimas', 'de': 'Depersonalizacija', 'apv': 'Asmeninių pasiekimų vertinimas', 'pa': 'Psichologinis atsparumas'}%}
         {% for key, value in previous_results.items() %}
             <li>{{ category_names_previous[key] }}: {{ value }}</li>
         {% endfor %}
